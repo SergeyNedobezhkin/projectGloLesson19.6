@@ -1,81 +1,51 @@
-"use strict";
 let idInterval = 0;
-const timer = deadline => {
-    const date = new Date();
-    const dateStop = new Date(deadline);
-    const timeRemaining = (dateStop.getTime() - date.getTime()) / 1000;
+const timer = () => {
+	const date = new Date();
+	const newDate = new Date(new Date().getFullYear() + 1, 0, 1);
+	function greeting() {
+		const hours = date.getHours();
 
-    function greeting() {
-        const hours = date.getHours();
+		if (hours < 6) {
+			return 'Добрый день.';
+		} else if (hours < 12) {
+			return 'Доброе утро.';
+		} else if (hours < 19) {
+			return 'Добрый день.';
+		} else {
+			return 'Добрый вечер.';
+		}
+	}
 
-        if (hours < 6) {
-            return 'Добрый день.';
-        } else if (hours < 12) {
-            return 'Доброе утро.';
-        } else if (hours < 19) {
-            return 'Добрый день.';
-        } else {
-            return 'Добрый вечер.';
-        }
-    }
-    const dayOfTheWeek = ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота', 'Воскресенье'];
+	function weekDay(date) {
+		const dayOfTheWeek = ['Воскресенье', 'Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота'];
+		return dayOfTheWeek[date.getDay()];
+	}
 
-    function addZero(time) {
-        if (time < 10) {
-            return `0${time}`;
-        } else {
-            return time;
-        }
-    }
+	function timeDay() {
+		const timeOfDay = new Date().toLocaleTimeString('en-Us');
+		return `${timeOfDay}`;
+	}
 
-    function timeDay() {
-        let hours = date.getHours();
-        const timeOfDay = hours >= 12 ? 'PM' : 'AM';
-        hours = hours % 12;
-        hours = hours ? hours : 12;
+	const days = (number) => {
+		const deys = [' день', ' дня', ' дней'];
+		const deyOne = number % 100,
+			deyTwo = number % 10;
+		return deyOne > 4 && deyOne < 21 ? number + deys[2] :
+			deyTwo === 1 ? number + deys[0] :
+				deyTwo > 1 && deyTwo < 5 ? number + deys[1] :
+					number + deys[2];
+	};
 
-        return `${addZero(hours)}:${addZero(date.getMinutes())}:${addZero(date.getSeconds())} ${timeOfDay}`;
-    }
-
-    function days() {
-
-        if (timeRemaining > 0) {
-            let dayRemaining = Math.floor(timeRemaining / 60 / 60 / 24);
-            let count = 'дней';
-            if (dayRemaining.toString().split('').pop() === 1) {
-                count = 'день';
-            } if (dayRemaining.toString().split('').pop() < 5 && dayRemaining.toString().split('').pop() > 1) {
-                count = 'дня';
-            }
-            return `${dayRemaining} ${count}`;
-        }
-
-        if (timeRemaining < 0) {
-            const dayRemaining = Math.floor(timeRemaining / 60 / 60 / 24) + 365;
-            const dateStop = new Date(deadline);
-            dateStop.setDate(dateStop.getDate());
-
-            let count = 'дней';
-            if (dayRemaining.toString().split('').pop() === 1) {
-                count = 'день';
-            } if (dayRemaining.toString().split('').pop() < 5 && dayRemaining.toString().split('').pop() > 1) {
-                count = 'дня';
-            }
-            return `${dayRemaining} ${count}`;
-        }
-    }
-
-    return `${greeting()} Сегодня: ${dayOfTheWeek[date.getDay() - 1]}
+	return `${greeting()} Сегодня: ${weekDay(date)}
   Текущее время: ${timeDay()}
-  До нового года осталось ${days()}`;
+  До нового года осталось ${days(Math.ceil((newDate.getTime() - date.getTime()) / 1000 / 60 / 60 / 24))}`;
 
 };
-
+timer();
 idInterval = setInterval(() => {
-    div.innerText = timer('31 dec 2022');
+	div.innerText = timer();
 }, 1000);
 
 const div = document.createElement('div');
 div.style.cssText = 'text-align: center;font-size: 30px;margin-top: 10%;';
-
 document.body.append(div);

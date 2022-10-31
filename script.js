@@ -21,7 +21,7 @@ const timer = () => {
 
 	function weekDay() {
 		return new Date().toLocaleDateString('ru-RU', { weekday: 'long' })
-			.replaceAll(/([а-яё])([а-яё]*)/gi, (word, first, rest) => (`${first.toUpperCase()}${rest.toLowerCase()}`));
+		.replaceAll(/([а-яё])([а-яё]*)/gi, (word, first, rest) => (`${first.toUpperCase()}${rest.toLowerCase()}`));
 	}
 
 	const timeDay = () => {
@@ -38,18 +38,16 @@ const timer = () => {
 			case num && num10 < 5: return `${num} ${words[1]}`;
 			default: return `${num} ${words[2]}`;
 		}
-
 	};
 
 	return `${greeting()} Сегодня: ${weekDay()}
   Текущее время: ${timeDay()}
   До нового года осталось ${days(Math.ceil((newDate.getTime() - date.getTime()) / 1000 / 60 / 60 / 24),
 		[' день', ' дня', ' дней'])}`;
-
 };
 div.innerText = timer();
 idInterval = setInterval(() => {
-	div.innerText = timer();	
+	div.innerText = timer();
 }, 1000);
 
 div.style.cssText = 'text-align: center;font-size: 30px;margin-top: 10%;';

@@ -3,7 +3,7 @@ let idInterval = 0;
 
 const timer = () => {
 	const date = new Date();
-	const newDate = new Date(new Date().getFullYear() + 1, 0, 1);
+	const newDate = new Date(date.getFullYear() + 1, 0, 1);
 
 	function greeting() {
 		const hours = date.getHours();
@@ -20,12 +20,12 @@ const timer = () => {
 	}
 
 	function weekDay() {
-		return new Date().toLocaleDateString('ru-RU', { weekday: 'long' })
+		return date.toLocaleDateString('ru-RU', { weekday: 'long' })
 		.replaceAll(/([а-яё])([а-яё]*)/gi, (word, first, rest) => (`${first.toUpperCase()}${rest.toLowerCase()}`));
 	}
 
 	const timeDay = () => {
-		const timeOfDay = new Date().toLocaleTimeString('en-Us');
+		const timeOfDay = date.toLocaleTimeString('en-Us');
 		return `${timeOfDay}`;
 	};
 
